@@ -19,7 +19,6 @@ public class ImportCSVManager
     public readonly int SHEET_ID = 1901658409;
 
     public List<EnemyStatus> enemys;
-    public GameObject[] enemyObjects;
 
     // key  > 스프레드시트 주제
     // value  > 스프레드시트 데이터
@@ -57,7 +56,6 @@ public class ImportCSVManager
                 {
                     enemys = GetDatasAsChildren<EnemyStatus>(sheetDatas[currentType]);
 
-                    int i = 0;
                     foreach (EnemyStatus enemy in enemys)
                     {
                         // 저장된 enemy 정보처리
@@ -65,8 +63,7 @@ public class ImportCSVManager
                         GameObject SpawnEnemy = Resources.Load<GameObject>($"Enemy/{enemy.Name}");
                         SpawnEnemy.name = enemy.Name;
                         SpawnEnemy.GetComponentInChildren<Enemy>().status = enemy;
-                        enemyObjects[i] = SpawnEnemy;
-                        i++;
+                        Managers.Game.spawnEnemy.Add(SpawnEnemy);
                     }
                 }
                 break;
@@ -85,7 +82,6 @@ public class ImportCSVManager
 
         // 셀의 행값을 배열에 저장(몬스터 각 정보를 배열에 저장)
         string[] splitedData = data.Split('\n');
-        enemyObjects = new GameObject[splitedData.Length];
 
         // 저장한 배열의 값에 접근
         foreach (string element in splitedData)

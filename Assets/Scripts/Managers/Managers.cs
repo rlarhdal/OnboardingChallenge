@@ -2,11 +2,11 @@
 
 public class Managers : MonoBehaviour
 {
-    static Managers instance;
+    static Managers instance = null;
     static Managers Instance { get { Init(); return instance; } }
 
     ImportCSVManager importCsv = new ImportCSVManager();
-    GameManager game = new GameManager();
+    GameManager game;
 
     public static ImportCSVManager ImportCsv { get { return Instance?.importCsv; } }
     public static GameManager Game { get { return Instance?.game; } }
@@ -29,9 +29,9 @@ public class Managers : MonoBehaviour
             DontDestroyOnLoad(go);
             instance = go.GetComponent<Managers>();
 
+            instance.game = go.AddComponent<GameManager>();
+
             instance.importCsv.Init();
         }
     }
-
-
 }

@@ -1,24 +1,51 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemySpawn : MonoBehaviour
 {
-    private void Start()
+
+    private void Awake()
     {
         Init();
     }
 
+    private void Update()
+    {
+        if(Managers.Game.currentEnemy == null)
+        {
+            SpawnEnemy();
+        }
+    }
+
     public void Init()
     {
-        StartCoroutine(Managers.ImportCsv.LoadDatas(SheetType.Enemy));
-        Invoke("SpawnEnemy", 1);
+        // 적 정보 로드
+        MakeEnemyPool();
+        SpawnEnemy();
+    }
+
+    private void MakeEnemyPool()
+    {
+        for (int i = 0; i < Managers.Game.spawnEnemy.Count; i++)
+        {
+            GameObject obj = Instantiate(Managers.Game.spawnEnemy[i]);
+            obj.transform.SetParent(gameObject.transform);
+            obj.SetActive(false);
+            Managers.Game.enemyPool.Enqueue(obj);
+        }
     }
 
     void SpawnEnemy()
     {
-        if (Managers.Game.currentEnemy != null) return;
+        if (Managers.Game.enemyPool.Count == 0) return;
 
-        Instantiate(Managers.ImportCsv.enemyObjects[Managers.Game.spawnCount]);
+        if (Managers.Game.currentEnemy == null)
+        {
+            Managers.Game.currentEnemy = Managers.Game.enemyPool.Dequeue();
+            Managers.Game.currentEnemy.SetActive(true);
+        }
     }
+
 }
