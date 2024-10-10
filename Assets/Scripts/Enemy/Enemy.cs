@@ -15,7 +15,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private int maxHealth;
     private bool isMoving;
     private Vector2 GizmosPos;
-    private Vector2 startPos = new Vector2(2, 0);
+    private Vector2 startPos = new Vector2(11, 0);
     private WaitForSeconds deathLoading = new WaitForSeconds(3f);
 
     public EnemyStatus status;
@@ -54,7 +54,7 @@ public class Enemy : MonoBehaviour
     {
         if (isMoving)
         {
-            trans.Translate(Vector2.left * status.Speed * Time.deltaTime);
+            trans.Translate(Vector2.left * status.Speed * Time.deltaTime * 2f);
         }
     }
 

@@ -8,7 +8,7 @@ public class Player : MonoBehaviour
     Animator animator;
 
     [Header("Overlap")]
-    float radius = .5f;
+    float radius = 2f;
     [SerializeField] LayerMask layerMask;
     Vector2 GizmosPos;
     Collider2D col;
@@ -56,7 +56,8 @@ public class Player : MonoBehaviour
 
             if (currentTime > delayTime)
             {
-                Attack();
+                animator.SetTrigger("Attack");
+                Invoke("Attack", .5f);
                 currentTime = 0;
             }
         }
@@ -70,7 +71,6 @@ public class Player : MonoBehaviour
 
     public void Attack()
     {
-        animator.SetTrigger("Attack");
         Managers.Game.currentEnemy.GetComponent<Health>().TakeDamage(attackPower);
     }
 }
